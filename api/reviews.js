@@ -29,6 +29,8 @@ export default async function handler(req, res) {
     const data = await response.json();
 
     res.setHeader("Cache-Control", "s-maxage=3600");
+    console.log("Whop API response:", data)
+
     res.status(200).json(data);
   } catch (error) {
     res.status(500).json({ error: "Failed to fetch reviews" });
