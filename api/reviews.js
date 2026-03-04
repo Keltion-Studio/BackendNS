@@ -1,4 +1,15 @@
 export default async function handler(req, res) {
+
+  // Always set CORS headers first
+  res.setHeader("Access-Control-Allow-Origin", "*")
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS")
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type")
+
+  // Handle preflight request
+  if (req.method === "OPTIONS") {
+    return res.status(200).end()
+  }
+
   const { product_id } = req.query;
 
   if (!product_id) {
@@ -6,11 +17,6 @@ export default async function handler(req, res) {
   }
 
   try {
-    // CORS headers
-    res.setHeader("Access-Control-Allow-Origin", "*")
-    res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS")
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type")
-    
     const response = await fetch(
       `https://api.whop.com/api/v1/reviews?product_id=${product_id}`,
       {
